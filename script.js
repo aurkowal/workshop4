@@ -57,6 +57,56 @@ function apiCreateTask(title, description) {
     });
 }
 
+function apiDeleteTask(taskId) {
+    return fetch(apihost + "/api/tasks/" + taskId, {
+        headers: { Authorization: apikey },
+        method: "DELETE",
+    }).then(function (resp) {
+        if (!resp.ok) {
+            alert("Wystąpił błąd! Otwórz devtools i zakładkę Sieć/Network, i poszukaj przyczyny");
+        }
+        return resp.json();
+    });
+}
+
+function apiUpdateOperation(operationId, description, timeSpent) {
+    return fetch(apihost + "/api/operations/" + operationId, {
+        headers: { Authorization: apikey, "Content-Type": "application/json" },
+        body: JSON.stringify({ description: description, timeSpent: timeSpent }),
+        method: "PUT",
+    }).then(function (resp) {
+        if (!resp.ok) {
+            alert("Wystąpił błąd! Otwórz devtools i zakładkę Sieć/Network, i poszukaj przyczyny");
+        }
+        return resp.json();
+    });
+}
+
+function apiDeleteOperation(operationId) {
+    return fetch(apihost + "/api/operations/" + operationId, {
+        headers: { Authorization: apikey },
+        method: "DELETE",
+    }).then(function (resp) {
+        if (!resp.ok) {
+            alert("Wystąpił błąd! Otwórz devtools i zakładkę Sieć/Network, i poszukaj przyczyny");
+        }
+        return resp.json();
+    });
+}
+
+function apiUpdateTask(taskId, title, description, status) {
+    return fetch(apihost + "/api/tasks/" + taskId, {
+        headers: { Authorization: apikey, "Content-Type": "application/json" },
+        body: JSON.stringify({ title: title, description: description, status: status }),
+        method: "PUT",
+    }).then(function (resp) {
+        if (!resp.ok) {
+            alert("Wystąpił błąd! Otwórz devtools i zakładkę Sieć/Network, i poszukaj przyczyny");
+        }
+        return resp.json();
+    });
+}
+
 
 function renderTask(taskId, title, description, status) {
     const section = document.createElement('section');
@@ -102,11 +152,11 @@ function renderTask(taskId, title, description, status) {
     deleteButton.innerText = 'Delete';
     headerRightDiv.appendChild(deleteButton);
 
-    // deleteButton.addEventListener("click", function () {
-    //     apiDeleteTask(taskId).then(function () {
-    //         section.parentElement.removeChild(section);
-    //     });
-    // });
+    deleteButton.addEventListener("click", function () {
+        apiDeleteTask(taskId).then(function () {
+            section.parentElement.removeChild(section);
+        });
+    });
 
     const ul = document.createElement("ul");
     ul.className = "list-group list-group-flush";
